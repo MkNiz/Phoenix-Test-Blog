@@ -1,15 +1,22 @@
 defmodule TestBlog.Post do
   use TestBlog.Web, :model
+  import Ecto.Query
 
   schema "posts" do
     field :title, :string
     field :body, :string
 
     has_many :comments, TestBlog.Comment
-    
+
     timestamps()
   end
 
+  def num_comments(query) do
+    from p in query,
+      group_by: p.id,
+      left_join: c in assoc(p, :comments),
+      select: {p, count(c.id)}
+  end
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
