@@ -5,6 +5,8 @@ defmodule TestBlog.Post do
     field :title, :string
     field :body, :string
 
+    has_many :comments, TestBlog.Comment
+    
     timestamps()
   end
 
